@@ -13,6 +13,8 @@ from django.utils.encoding import smart_str
 from django.contrib import messages
 from django.core.mail import mail_managers
 
+print "test 3"
+
 
 class LiveArticleManager(models.Manager):
     """
