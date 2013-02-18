@@ -1,0 +1,48 @@
+{% extends "vodkamartiniarticle/base_articles.html" %}
+
+{% block title %}article list{% endblock %}
+
+{% block content %}
+
+{% load url from future %}  
+
+<h1>Articles list</h1>
+{% for object in object_list %}
+    <article>
+        <h2>{{ object.title }}</h2>
+        <p>Published on {{ object.created|date:"F j, Y" }}</p>
+        <p>Author: <strong>{{ object.author.id }} {{ object.author.username }}</strong></p>
+        <p>Updated on {{ object.updated|date:"F j, Y H:i:s A e" }}</p>
+
+        {% if object.teaser_html %}
+            {{ object.teaser_html|safe }}
+        {% else %}
+            {{ object.body_html|truncatewords_html:"50"|safe }}
+        {% endif %}
+        {% if object.image %}
+            <p><img src="{{ object.image.url }}" alt="" /></p>
+        {% endif %}
+        <p><a href="{{ object.get_absolute_url }}">Read full entry</a></p>
+    </article>
+{% endfor %}
+
+<div class="pagination">
+
+    {% if articles.has_previous %}
+        {% if articles.previous_page_number == 1 %}
+            <a href="{% url 'vodkamartiniarticle_articles_home' %}">previous</a>
+        {% else %}
+            <a href="{% url 'vodkamartiniarticle_articles_index' page=articles.previous_page_number %}">previous</a>
+        {% endif %}
+    {% endif %}
+
+    <span class="current">
+        Page {{ articles.number }} of {{ articles.paginator.num_pages }}.
+    </span>
+
+    {% if articles.has_next %}
+        <a href="{% url 'vodkamartiniarticle_articles_index' page=articles.next_page_number %}">next</a>
+    {% endif %}
+</div>
+
+{% endblock %}

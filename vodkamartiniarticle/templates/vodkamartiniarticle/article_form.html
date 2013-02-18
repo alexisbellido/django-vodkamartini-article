@@ -1,0 +1,36 @@
+{% extends "vodkamartiniarticle/base_articles.html" %}
+
+{% block title %}
+    {% if object %}
+    Edit Article
+    {% else %}
+    Add Article
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+
+    {% if object %}
+        <h1>Let's edit this article: {{ object.title }}</h1>
+        <p>Published on {{ object.created|date:"F j, Y" }}</p>
+        <p>Author: <strong>{{ object.author.id }} {{ object.author.username }}</strong></p>
+        <p><a href="{{ object.get_absolute_url }}">Read full entry</a></p>
+    {% else %}
+        <h1>Add new article</h1>
+    {% endif %}
+
+    {% if form.errors %}
+      <p style="color: red;">Correct error{{ form.errors|pluralize }}</p>
+    {% endif %}
+
+    <form action="." method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <table>
+      {{ form.as_table }}
+      </table>
+      <input type="submit" value="{% if object %}Save Article{% else %}Add Article{% endif %}" />
+    </form>
+    <p>Current image</p>
+    <p><img src="{{ object.image.url }}" alt="" /></p>
+
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends "vodkamartiniarticle/base_articles.html" %}
+
+{% block title %} {{ block.super }} | {{ object.title }}{% endblock %}
+
+{% block content %}
+    {% load url from future %}  
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if object_is_live or can_edit %}
+        <article>
+            <h1>{{ object.title }}</h1>
+            <p>Published on {{ object.created|date:"F j, Y" }}</p>
+            <p>Author: <strong>{{ object.author.id }} {{ object.author.username }}</strong></p>
+
+            {% if object.categories.count %}
+                <p>Categories:</p>
+                {% for category in object.categories.all %}
+                    <p><a href="{{ category.get_absolute_url }}">{{ category.title }}</a></p>
+                {% endfor %}
+            {% endif %}
+
+            <h2>Teaser or truncated body</h2>
+            {% if object.teaser_html %}
+                <h3>using teaser</h3>
+                {{ object.teaser_html|safe }}
+            {% else %}
+                <h3>using truncated body</h3>
+                {{ object.body_html|truncatewords_html:"50"|safe }}
+            {% endif %}
+            
+            <h2>Complete body</h2>
+            {{ object.body_html|safe }}
+            {% if object.image %}
+                <p><img src="{{ object.image.url }}" alt="" /></p>
+            {% endif %}
+
+            {% load comments %}
+            {% get_comment_count for object as comment_count %}
+            {% if comment_count %}
+                <p>This article has {{ comment_count }} comment{{ comment_count|pluralize }}.</p>
+            {% endif %}
+
+            <section id="comments">
+            {% get_comment_list for object as comment_list %}
+            {% for comment in comment_list %}
+                <article>
+                    <p>On {{ comment.submit_date|date:"F j, Y" }}, {{ comment.name }} said:</p>
+                    {% load markup %}
+                    <p>{{ comment.comment|markdown:"safe" }}</p>
+                </article>
+            {% endfor %}
+            </section>
+
+            {% if user.is_authenticated %}
+                {% if perms.comments.add_comment %}
+                    <h2>Post a comment</h2>
+                    {% render_comment_form for object %}
+                {% endif %}
+            {% else  %}
+                <p>You need to be logged in to comment.</p>
+            {% endif %}
+
+            {% if can_edit %}
+                <p><a href="{% url 'vodkamartiniarticle_article_edit' pk=object.id %}">edit this article</a></p>
+            {% endif %}
+        </article>
+    {% else %}
+        <h2>This article is not published yet.</h2>
+    {% endif %}
+
+{% endblock content %}
+
+{% block footer_javascript_page %}
+{% endblock footer_javascript_page %}

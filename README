@@ -1,0 +1,16 @@
+VodkaMartini Article
+
+This application constitutes the basics for a content management system by defining the BaseArticle model.
+
+Works together with django-vodkamartini-permission, see INSTALL for that application.
+
+Features
+===========
+
+- Feeds.
+- Image upload.
+
+
+Future Features
+================
+- Revisions support.

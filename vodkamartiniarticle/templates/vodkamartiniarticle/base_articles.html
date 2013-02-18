@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Articles{% endblock %}
+
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{{ STATIC_URL }}vodkamartiniarticle/css/main.css"/>
+{% endblock %}
+
+{% block head_rss %}
+    {% comment %}
+    {% load url from future %}
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="{% url 'vodkamartiniarticle_feed_latest' %}">
+    {% endcomment %}
+{% endblock %}
+
+{% block bodyclass %}articles{% endblock %}
+
+{% block primary_menu %}
+    {% load url from future %}
+    <p>
+        <a href="{% url 'vodkamartiniarticle_articles_home' %}">list articles</a> | 
+        <a href="{% url 'vodkamartiniarticle_article_add' %}">add article</a> |
+        <a href="{% url 'vodkamartinicategory_categories_home' %}">list categories</a>
+    </p>
+    
+    {% load vm_auth %}
+    {% login_info request user %}
+{% endblock primary_menu %}
+
+{% block sidebar %}
+    <aside>
+    {% load article_tags %}
+
+    <h2>Latest Articles with simple templatetag</h2>
+    {% get_latest_articles %}
+    <ul>
+    {% for article in latest_articles %}
+    <li><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></li>
+    {% endfor %}
+    </ul>
+
+    <h2>Latest Articles with flexible templatetag that accepts parameters</h2>
+    {% get_latest_content vodkamartiniarticle.article 3 as latest_objects %}
+    <ul>
+    {% for object in latest_objects %}
+    <li><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></li>
+    {% endfor %}
+    </ul>
+    </aside>
+{% endblock sidebar %}

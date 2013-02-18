@@ -1,0 +1,4 @@
+TODO
+
+- Use add_article permission to decide which users can add an article.
+- Management commands to assign users to articles and change categories.
