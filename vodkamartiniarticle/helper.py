@@ -3,7 +3,7 @@ from django.template.defaultfilters import slugify
 from django.conf import settings
 
 def check_internal_spam_words(content):
-    return any(word in (content) for word in settings.SPAM_WORDS)
+    return any(word.lower() in (content.lower()) for word in settings.SPAM_WORDS)
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
