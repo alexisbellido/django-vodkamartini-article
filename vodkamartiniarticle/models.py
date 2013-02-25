@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-import datetime
+from django.utils.timezone import now
 from markdown import markdown
 from vodkamartiniarticle.helper import unique_slugify
 from django.contrib.comments.models import Comment
@@ -78,7 +78,7 @@ class BaseArticle(models.Model):
         if not self.pk and not self.slug:
             unique_slugify(self, self.title)
         if not self.pk and not self.created:
-            self.created = datetime.datetime.now()
+            self.created = now()
         self.body_html = markdown(self.body.replace('<p>', '').replace('</p>', ''), safe_mode="replace", html_replacement_text="")
         if self.teaser:
             self.teaser_html = markdown(self.teaser.replace('<p>', '').replace('</p>', ''), safe_mode="replace", html_replacement_text="")
