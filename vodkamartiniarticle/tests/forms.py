@@ -105,14 +105,14 @@ class ArticleForms(TestCase):
     #def testDeleteArticle(self):
     #    pass
 
-    def testCantAddArticle(self):
-        """
-        The user is not authenticated, he shouldn't be able to add an article.
-        Check that posting to the 'vodkamartiniarticle_article_add' view redirects to login.
-        """
-        data = {'title': 'my title', 'teaser': 'my teaser', 'body': 'my body'}
-        response = self.client.post(reverse('vodkamartiniarticle_article_add'), data)
-        self.assertRedirects(response, reverse('vodkamartiniauth_login') + '?next=' + reverse('vodkamartiniarticle_article_add'))
+    #def testCantAddArticle(self):
+    #    """
+    #    The user is not authenticated, he shouldn't be able to add an article.
+    #    Check that posting to the 'vodkamartiniarticle_article_add' view redirects to login.
+    #    """
+    #    data = {'title': 'my title', 'teaser': 'my teaser', 'body': 'my body'}
+    #    response = self.client.post(reverse('vodkamartiniarticle_article_add'), data)
+    #    self.assertRedirects(response, reverse('vodkamartiniauth_login') + '?next=' + reverse('vodkamartiniarticle_article_add'))
 
     #def testCantChangeArticle(self):
     #    pass
