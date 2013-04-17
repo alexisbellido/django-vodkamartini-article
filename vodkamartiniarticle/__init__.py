@@ -18,8 +18,8 @@ def get_version(version=None):
     sub = ''
     if version[3] == 'alpha' and version[4] == 0:
         # At the toplevel, this would cause an import loop.
-        from django.utils.version import get_svn_revision
-        svn_revision = get_svn_revision()[4:]
+        from django.utils.version import get_version
+        svn_revision = get_version()[4:]
         if svn_revision != 'unknown':
             sub = '.dev%s' % svn_revision
 
