@@ -41,6 +41,7 @@ class BaseArticle(models.Model):
     teaser = models.TextField(blank=True)
     body = models.TextField()
     image = models.ImageField(upload_to='images/articles/%Y-%m', blank=True)
+    image_cropped = models.ImageField(upload_to='images/articles-cropped/%Y-%m', blank=True)
     created = models.DateTimeField(blank=True)
     updated = models.DateTimeField(auto_now=True)
 
